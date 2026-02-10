@@ -1,39 +1,38 @@
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import { FaShoppingCart, FaStore } from "react-icons/fa";
 
-export default function Header() {
+const Navbar = () => {
+  const { cart } = useCart();
+
   return (
-    <header className="sticky top-0 z-50 bg-white shadow">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-
+    <nav className="bg-white shadow-md sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
-        <Link
-          to="/"
-          className="text-2xl font-extrabold text-blue-600 tracking-tight"
-        >
-          E-Shop
+        <Link to="/" className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+          <FaStore className="text-indigo-600" />
+          MyStore
         </Link>
 
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link className="text-gray-700 hover:text-blue-600" to="/">
-            Home
+        {/* Menu & Cart */}
+        <div className="flex items-center gap-6">
+          <Link to="/" className="text-gray-600 hover:text-indigo-600 font-medium">
+            Accueil
           </Link>
-          <Link className="text-gray-700 hover:text-blue-600" to="/products">
-            Products
-          </Link>
-          <Link
-            className="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
-            to="/login"
-          >
-            Login
-          </Link>
-        </nav>
-
-        {/* Mobile menu */}
-        <button className="md:hidden p-2 rounded-lg hover:bg-gray-100">
-          ☰
-        </button>
+          <div className="relative">
+            <Link to="/cart" className="text-2xl text-gray-700 hover:text-indigo-600 transition">
+              <FaShoppingCart />
+            </Link>
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                {cart.length}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
-    </header>
+    </nav>
   );
-}
+};
+
+export default Navbar;
