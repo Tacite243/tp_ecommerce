@@ -1,9 +1,0 @@
-#!/bin/sh
-
-branch="$(git branch --show-current)"
-
-if [ "$branch" = "master" ]; then
-  echo "❌ Direct push to master is forbidden."
-  echo "👉 Create a feature branch and open a Pull Request."
-  exit 1
-fi
