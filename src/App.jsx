@@ -1,19 +1,26 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
+import Home from "./pages/Home";
+import ProductDetails from "./pages/ProductDetails";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 export default function App() {
   return (
     <>
-      <Header />
-      <main className="max-w-7xl mx-auto p-8">
-        <h1 className="text-3xl font-bold mb-4">
-          Welcome to E-Shop
-        </h1>
-        <p className="text-gray-600">
-          Your favorite products, all in one place.
-        </p>
-      </main>
-      <Footer />
+      <CartProvider>
+      <Router>
+        <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<div className="text-center mt-20">Page Panier (À toi de jouer !)</div>} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </CartProvider>
     </>
   );
 }
