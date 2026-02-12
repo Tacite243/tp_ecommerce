@@ -2,71 +2,116 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  // Identifiants valides pour Fake Store API
+export default function Login() {
   const [username, setUsername] = useState("mor_2314");
   const [password, setPassword] = useState("83r5^_");
   const { login, loading, error } = useAuth();
   const navigate = useNavigate();
+  const [formError, setFormError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!username || !password) {
+      setFormError("Tous les champs sont requis");
+      return;
+    }
+    setFormError("");
+
     try {
       await login(username, password);
-      navigate("/"); // Redirection vers l'accueil après succès
+      navigate("/");
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Connexion</h2>
-        
-        {error && (
-          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded">
-            {error}
-          </div>
-        )}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#cfd5db] via-[#bfc7cf] to-[#aeb7c1] px-4">
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">Nom d'utilisateur</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-indigo-500 focus:bg-white focus:outline-none transition"
-              required
-            />
+      {/* Card */}
+      <div className="w-full max-w-5xl bg-[#07121f] rounded-2xl flex flex-col md:flex-row overflow-hidden border border-cyan-500">
+
+        {/* LEFT – LOGIN */}
+        <div className="w-full md:w-1/2 p-8 md:p-12 text-white flex flex-col justify-center">
+          <h2 className="text-3xl font-bold mb-8 text-center md:text-left">
+            Se connecter
+          </h2>
+
+          {(error || formError) && (
+            <div className="bg-red-500/20 border border-red-500 text-red-400 p-3 rounded mb-4 text-sm">
+              {formError || error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* Username */}
+            <div className="relative">
+              <input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full bg-transparent border-b border-gray-500 text-white py-2 focus:outline-none focus:border-cyan-400"
+              />
+              <label className="absolute left-0 -top-4 text-gray-400 text-sm">
+                Nom d'utilisateur
+              </label>
+            </div>
+
+            {/* Password */}
+            <div className="relative">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-transparent border-b border-gray-500 text-white py-2 focus:outline-none focus:border-cyan-400"
+              />
+              <label className="absolute left-0 -top-4 text-gray-400 text-sm">
+                Mot de passe
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full mt-6 py-3 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-bold hover:opacity-90 transition"
+            >
+              {loading ? "Connexion..." : "Se connecter"}
+            </button>
+          </form>
+
+          <p className="mt-6 text-sm text-gray-400 text-center md:text-left">
+            Vous n'avez pas de compte ?{" "}
+            <span className="text-cyan-400 cursor-pointer">
+              Créer un compte
+            </span>
+          </p>
+        </div>
+
+        {/* RIGHT – WELCOME */}
+        <div className="w-full md:w-1/2 bg-gradient-to-br from-cyan-400 to-blue-600 relative flex items-center justify-center p-10">
+
+          <div className="absolute inset-0 bg-[#07121f] md:clip-path-diagonal"></div>
+
+          <div className="relative z-10 text-white text-center">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+              Bienvenue sur SHAPIO Market
+            </h1>
+            <p className="text-sm md:text-base opacity-80">
+              Votre boutique en ligne.
+            </p>
           </div>
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">Mot de passe</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-indigo-500 focus:bg-white focus:outline-none transition"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition transform hover:-translate-y-1 ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {loading ? "Connexion..." : "Se connecter"}
-          </button>
-        </form>
-        <p className="mt-4 text-xs text-gray-500 text-center">
-          Utilisez <b>mor_2314</b> / <b>83r5^_</b> pour tester.
-        </p>
+        </div>
+
       </div>
+
+      {/* Diagonal shape only on desktop */}
+      <style>{`
+        @media (min-width: 768px) {
+          .clip-path-diagonal {
+            clip-path: polygon(0 0, 70% 0, 40% 100%, 0% 100%);
+          }
+        }
+      `}</style>
     </div>
   );
-};
-
-export default Login;
+}
