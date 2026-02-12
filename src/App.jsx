@@ -6,6 +6,9 @@ import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import { Navigate } from "react-router-dom";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
 
 export default function App() {
   return (
@@ -21,7 +24,9 @@ export default function App() {
               <Route element={<PrivateRoute />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/cart" element={<div className="text-center mt-20">Page Panier</div>} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
               </Route>
 
               {/* Redirection par défaut : N'importe quelle URL inconnue renvoie vers "/" (qui renverra vers login si pas connecté) */}
