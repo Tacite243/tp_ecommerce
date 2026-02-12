@@ -26,14 +26,16 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#cfd5db] via-[#bfc7cf] to-[#aeb7c1]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#cfd5db] via-[#bfc7cf] to-[#aeb7c1] px-4">
 
       {/* Card */}
-      <div className="w-full max-w-4xl h-[480px] bg-[#07121f] rounded-2xl flex overflow-hidden border border-cyan-500">
+      <div className="w-full max-w-5xl bg-[#07121f] rounded-2xl flex flex-col md:flex-row overflow-hidden border border-cyan-500">
 
         {/* LEFT – LOGIN */}
-        <div className="w-1/2 p-12 text-white flex flex-col justify-center">
-          <h2 className="text-3xl font-bold mb-8">Se connecter</h2>
+        <div className="w-full md:w-1/2 p-8 md:p-12 text-white flex flex-col justify-center">
+          <h2 className="text-3xl font-bold mb-8 text-center md:text-left">
+            Se connecter
+          </h2>
 
           {(error || formError) && (
             <div className="bg-red-500/20 border border-red-500 text-red-400 p-3 rounded mb-4 text-sm">
@@ -77,20 +79,24 @@ export default function Login() {
             </button>
           </form>
 
-          <p className="mt-6 text-sm text-gray-400">
+          <p className="mt-6 text-sm text-gray-400 text-center md:text-left">
             Vous n'avez pas de compte ?{" "}
-            <span className="text-cyan-400 cursor-pointer">Créer un compte</span>
+            <span className="text-cyan-400 cursor-pointer">
+              Créer un compte
+            </span>
           </p>
         </div>
 
         {/* RIGHT – WELCOME */}
-        <div className="w-1/2 bg-gradient-to-br from-cyan-400 to-blue-600 relative flex items-center justify-center">
+        <div className="w-full md:w-1/2 bg-gradient-to-br from-cyan-400 to-blue-600 relative flex items-center justify-center p-10">
 
-          <div className="absolute inset-0 bg-[#07121f] clip-path-diagonal"></div>
+          <div className="absolute inset-0 bg-[#07121f] md:clip-path-diagonal"></div>
 
-          <div className="relative z-10 text-white text-center px-10">
-            <h1 className="text-4xl font-bold mb-4">Bienvenue sur SHAPIO Market</h1>
-            <p className="text-sm opacity-80">
+          <div className="relative z-10 text-white text-center">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+              Bienvenue sur SHAPIO Market
+            </h1>
+            <p className="text-sm md:text-base opacity-80">
               Votre boutique en ligne.
             </p>
           </div>
@@ -98,10 +104,12 @@ export default function Login() {
 
       </div>
 
-      {/* Diagonal shape */}
+      {/* Diagonal shape only on desktop */}
       <style>{`
-        .clip-path-diagonal {
-          clip-path: polygon(0 0, 70% 0, 40% 100%, 0% 100%);
+        @media (min-width: 768px) {
+          .clip-path-diagonal {
+            clip-path: polygon(0 0, 70% 0, 40% 100%, 0% 100%);
+          }
         }
       `}</style>
     </div>
