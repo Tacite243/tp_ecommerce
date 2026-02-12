@@ -1,46 +1,84 @@
 import { useEffect, useState } from "react";
-import { api } from "../../api/api";
+import axios from "axios";
 
 export default function Products() {
     const [products, setProducts] = useState([]);
+    const [hoveredId, setHoveredId] = useState(null);
 
     useEffect(() => {
-        api
-            .get("/products")
+        axios
+            .get("https://fakestoreapi.com/products")
             .then((res) => setProducts(res.data))
             .catch((err) => console.error(err));
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-50 py-10 px-4">
-            {/* Titre */}
-            <h2 className="text-3xl font-bold text-gray-800 text-center mb-10">
-                Nos Produits
-            </h2>
+        <div className="container mx-auto px-6 py-10">
+            <h2 className="text-3xl font-bold mb-8">Featured Products</h2>
 
-            {/* Grille des produits */}
-            <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {products.map((p) => (
-                    <div
-                        key={p.id}
-                        className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition duration-300"
-                    >
-                        {/* Nom du produit */}
-                        <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                            {p.title}
-                        </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {products.map((p, index) => {
+                    const isDiscount = index % 3 === 0; // simulation promo
+                    const isNew = index % 5 === 0;
 
-                        {/* Prix */}
-                        <p className="text-xl font-bold text-blue-600 mb-4">
-                            {p.price} $
-                        </p>
+                    return (
+                        <div
+                            key={p.id}
+                            className="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 p-4 relative group"
+                            onMouseEnter={() => setHoveredId(p.id)}
+                            onMouseLeave={() => setHoveredId(null)}
+                        >
+                            {/* Badge */}
+                            {isDiscount && (
+                                <span className="absolute top-3 left-3 bg-red-600 text-white text-xs px-2 py-1 rounded-md z-10">
+                                    -20%
+                                </span>
+                            )}
 
-                        {/* Bouton */}
-                        <button className="w-full bg-blue-600 text-white py-2 rounded-xl font-medium hover:bg-blue-700 transition">
-                            Ajouter au panier
-                        </button>
-                    </div>
-                ))}
+                            {!isDiscount && isNew && (
+                                <span className="absolute top-3 left-3 bg-green-600 text-white text-xs px-2 py-1 rounded-md z-10">
+                                    New
+                                </span>
+                            )}
+
+                            {/* Image */}
+                            <div className="w-full h-48 flex items-center justify-center overflow-hidden mb-4">
+                                <img
+                                    src={p.image}
+                                    alt={p.title}
+                                    className={`max-h-40 object-contain transition duration-300 ${hoveredId === p.id ? "scale-110" : "scale-100"
+                                        }`}
+                                />
+                            </div>
+
+                            {/* Title (hauteur uniforme) */}
+                            <h4 className="text-sm font-semibold h-12 overflow-hidden mb-2">
+                                {p.title}
+                            </h4>
+
+                            {/* Price */}
+                            <div className="flex items-center gap-2 mb-3">
+                                <span className="text-lg font-bold text-gray-900">
+                                    ${p.price}
+                                </span>
+
+                                {isDiscount && (
+                                    <span className="text-sm text-gray-400 line-through">
+                                        ${(p.price * 1.2).toFixed(2)}
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Button */}
+                            <button className="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition transform text-black font-semibold py-2 rounded-full shadow-sm">
+                                Ajouter au panier
+                            </button>
+
+                            {/* Overlay Hover */}
+                            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 rounded-2xl transition pointer-events-none"></div>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );

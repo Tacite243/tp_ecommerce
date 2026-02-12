@@ -5,6 +5,7 @@ import Products from "../features/products/Products";
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
 
+
 export const router = createBrowserRouter([
     {
         path: "/",
