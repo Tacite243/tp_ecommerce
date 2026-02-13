@@ -31,7 +31,7 @@ export default function Login() {
       {/* Card */}
       <div className="w-full max-w-5xl bg-[#07121f] rounded-2xl flex flex-col md:flex-row overflow-hidden border border-cyan-500">
 
-        {/* LEFT – LOGIN */}
+        {/* LOGIN */}
         <div className="w-full md:w-1/2 p-8 md:p-12 text-white flex flex-col justify-center">
           <h2 className="text-3xl font-bold mb-8 text-center md:text-left">
             Se connecter
@@ -81,13 +81,17 @@ export default function Login() {
 
           <p className="mt-6 text-sm text-gray-400 text-center md:text-left">
             Vous n'avez pas de compte ?{" "}
-            <span className="text-cyan-400 cursor-pointer">
+            <span
+              className="text-cyan-400 cursor-pointer"
+              onClick={() => { }}
+            >
               Créer un compte
             </span>
           </p>
+
         </div>
 
-        {/* RIGHT – WELCOME */}
+        {/* Bienvenue */}
         <div className="w-full md:w-1/2 bg-gradient-to-br from-cyan-400 to-blue-600 relative flex items-center justify-center p-10">
 
           <div className="absolute inset-0 bg-[#07121f] md:clip-path-diagonal"></div>
@@ -104,7 +108,7 @@ export default function Login() {
 
       </div>
 
-      {/* Diagonal shape only on desktop */}
+      {/* Responsive style */}
       <style>{`
         @media (min-width: 768px) {
           .clip-path-diagonal {
